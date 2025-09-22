@@ -9,20 +9,19 @@ import {
   SelectValue,
 } from "@/components/ui/select"
 import { Switch } from "@/components/ui/switch"
-import { MessageSquare } from 'lucide-react'
+import { MessageSquare, Lock } from 'lucide-react'
 import { Button } from '@/components/ui/button'
-import { Lock } from 'lucide-react'
 function AIMultiModels() {
   const [aiModelList, setAIModelList] = useState(AIModelList)
-  const onToggleChange = (model : any,value: boolean)  => {
+  const onToggleChange = (model : string,value: boolean)  => {
     setAIModelList((prev) => prev.map((m) => 
       m.model === model ? {...m,enable: value} : m)    
     )
   }
   return (
     <div className='flex flex-1 h-[75vh] border-b'>
-      {aiModelList.map((model, index) => (
-        <div className={` ${model.enable? 'flex flex-1 min-w-[400px]' : 'w-[100px] flex flex-none'} flex-col border-r h-full overflow-auto`} key={index}>
+      {aiModelList.map((model) => (
+        <div className={` ${model.enable? 'flex flex-1 min-w-[400px]' : 'w-[100px] flex flex-none'} flex-col border-r h-full overflow-auto`} key={model.model}>
         <div className='flex w-full items-center  h-[70px] justify-between border-b p-4'>
           <div className='flex items-center gap-4'>
             <Image src={model.icon} alt={model.model} width={24} height={24} />
@@ -32,8 +31,8 @@ function AIMultiModels() {
                 <SelectValue placeholder={model.subModel[0].name} />
               </SelectTrigger>
               <SelectContent>
-                {model.subModel.map((subModel, index) => (
-                  <SelectItem key={index} value={subModel.name}>
+                {model.subModel.map((subModel) => (
+                  <SelectItem key={subModel.id} value={subModel.name}>
                     {subModel.name}
                   </SelectItem>
                 ))
