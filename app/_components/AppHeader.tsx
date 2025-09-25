@@ -6,7 +6,6 @@ function AppHeader() {
   return (
     <div className='p-3 w-full shadow-md flex justify-between items-center'>
         <SidebarTrigger />
-        <Button size={'lg'}>Sign in</Button>
     </div>
   )
 }
