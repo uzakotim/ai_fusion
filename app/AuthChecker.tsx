@@ -1,4 +1,3 @@
-"use client"
 import { useUser } from "@clerk/nextjs";
 import { useEffect } from 'react'
 import { useMutation } from "convex/react"
@@ -12,6 +11,7 @@ function AuthChecker({children}: ProviderProps) { {
   const {user} = useUser();
   const CreateUser = useMutation(api.users.CreateUser);
   const CreateNewUser = async () => {
+    // Logic to create a new user
     const userData = {
       name: user?.fullName,
       email: user?.emailAddresses[0].emailAddress,
@@ -24,7 +24,7 @@ function AuthChecker({children}: ProviderProps) { {
     }
 
     // Save to convex DB
-    await CreateUser({
+    const result = await CreateUser({
       name: userData.name!,
       email: userData.email!,
       picture: userData.avatar!,
@@ -34,15 +34,18 @@ function AuthChecker({children}: ProviderProps) { {
       plan: userData.plan,
       credits: userData.credits
     });
-    console.log("New user saved");
-
-    // Logic to create a new user
+    if (result) {
+      
+      console.log("New user saved");
+    } else {
+      console.log("User already exists");
+    }
   }
   useEffect(() => {
     if(user) {
       CreateNewUser();
     }
-  }, [user]); 
+  }, [user, CreateUser, CreateNewUser]); 
   return (
           <div>
             {children}

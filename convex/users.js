@@ -25,7 +25,7 @@ export const CreateUser=mutation({
     },
     handler: async(ctx, args)=>{
         // if user exists
-        const user = await ctx.db.query("users").filter(q=>q.eq(q.field("email"), args.email)).collect();
+        const user = await ctx.db.query("users").withIndex("by_email", (q) => q.eq("email", args.email)).collect();
         console.log(user);
         // if not add user
         if(user?.length === 0){
@@ -48,7 +48,7 @@ export const CreateUser=mutation({
 export const GetUser=query({
     args:{email: v.string()},
     handler: async(ctx, args)=>{
-        const user = await ctx.db.query("users").filter(q=>q.eq(q.field("email"), args.email)).collect();
+        const user = await ctx.db.query("users").withIndex("by_email", (q) => q.eq("email", args.email)).collect();
         return user[0];
     }
     

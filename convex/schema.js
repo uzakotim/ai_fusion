@@ -20,5 +20,5 @@ export default defineSchema({
         plan: v.string(),
         credits: v.number(),
         id: v.string()
-    })
+    }).index("by_email", ["email"]),
 });
